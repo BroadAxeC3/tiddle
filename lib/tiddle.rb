@@ -1,3 +1,4 @@
+require "tiddle/configuration"
 require "tiddle/version"
 require "tiddle/model"
 require "tiddle/strategy"
@@ -5,6 +6,18 @@ require "tiddle/rails"
 require "tiddle/token_issuer"
 
 module Tiddle
+  def self.configuration
+    @configuration ||= Configuration.new
+  end
+
+  def self.reset_configuration
+    @configuration = Configuration.new
+  end
+
+  def self.configure
+    yield(configuration)
+  end
+
   def self.create_and_return_token(resource, request, options = {})
     TokenIssuer.build.create_and_return_token(resource, request, options)
   end
